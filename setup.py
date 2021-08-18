@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='0.3',
+    version='0.4',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',
@@ -23,6 +23,7 @@ setup(
     include_package_data=True,
     platforms='any',
     install_requires=[
+        'requests',
         'pymysql',
         'pandas'
     ],
