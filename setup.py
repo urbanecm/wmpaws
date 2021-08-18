@@ -11,11 +11,11 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='0.1',
+    version='0.2',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',
-    description='To be done',
+    description='A library for Wikimedia\'s PAWS service.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     py_modules=['wmpaws'],
