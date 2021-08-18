@@ -11,7 +11,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='0.2',
+    version='0.3',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',

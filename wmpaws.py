@@ -15,8 +15,8 @@ def connect(dbname: str, cluster: str = 'analytics') -> pymysql.connections.Conn
         charset='utf8'
     )
 
-def run_sql(query: str, dbname: str, cluster: str = 'analytics'):
-    df = pd.read_sql_query(query, connect(dbname, cluster))
+def run_sql(query: str, connection: pymysql.connections.Connection):
+    df = pd.read_sql_query(query, connection)
     for x in df:
         df[x] = df[x].apply(lambda y: y.decode('utf-8') if isinstance(y, bytes) else y)
     return df
