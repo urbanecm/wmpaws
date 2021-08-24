@@ -4,6 +4,7 @@ wmpaws
 
 This is the description for that library
 """
+import setuptools
 from setuptools import setup
 
 with open("README.md", "r") as fh:
@@ -11,14 +12,15 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='0.4',
+    version='0.5',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',
     description='A library for Wikimedia\'s PAWS service.',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    py_modules=['wmpaws'],
+    package_dir={"": 'src'},
+    packages=setuptools.find_packages(where="src"),
     zip_safe=False,
     include_package_data=True,
     platforms='any',
