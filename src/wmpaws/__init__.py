@@ -21,6 +21,7 @@ import os
 import pymysql
 import pandas as pd
 import requests
+from IPython.display import display, HTML
 
 def connect(dbname: str, cluster: str = 'analytics') -> pymysql.connections.Connection:
     if cluster not in ['analytics', 'web']:
@@ -47,3 +48,33 @@ def get_dblist(dblist):
     res.pop(0)
     res.pop()
     return res
+
+def hide_code_button():
+    # Based on a StackOverflow answer by harshil
+    # https://stackoverflow.com/a/28073228/2509972
+    display(HTML("""
+    <form action="javascript:code_toggle()">
+        <input
+        id="code_toggle"
+        type="submit"
+        value="Hide code"
+        style="font-size: 1.4em"
+        >
+    </form>
+    <script>
+    code_shown = true;
+    function code_toggle() {
+        if (code_shown) {
+            $('div.input, div.output_prompt').hide();
+            //$('div.output_prompt').css('visibility', 'hidden');
+            $('#code_toggle').attr("value", "Show code");
+        } else {
+            $('div.input, div.output_prompt').show();
+            //$('div.output_prompt').css('visibility', 'visible');
+            $('#code_toggle').attr("value", "Hide code");
+        }
+        code_shown = !code_shown
+    }
+    $(document).ready(code_toggle);
+    </script>
+    """))
