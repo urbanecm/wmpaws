@@ -21,6 +21,7 @@ import os
 import pymysql
 import pandas as pd
 import requests
+from requests_oauthlib import OAuth1
 from IPython.display import display, HTML
 
 def connect(dbname: str, cluster: str = 'analytics') -> pymysql.connections.Connection:
@@ -52,6 +53,9 @@ def get_dblist(dblist):
     res.pop(0)
     res.pop()
     return res
+
+def get_oauth1():
+    return OAuth1(os.environ["CLIENT_ID"], os.environ["CLIENT_SECRET"], os.environ["ACCESS_KEY"], os.environ["ACCESS_SECRET"])
 
 def hide_code_button():
     # Based on a StackOverflow answer by harshil
