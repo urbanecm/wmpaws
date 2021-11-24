@@ -26,8 +26,10 @@ setup(
     platforms='any',
     install_requires=[
         'requests',
+        'requests_oauthlib',
         'pymysql',
-        'pandas'
+        'pandas',
+        'ipython'
     ],
     classifiers=[
         'Intended Audience :: Developers',
