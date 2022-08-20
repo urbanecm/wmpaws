@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='1.0',
+    version='1.1',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',

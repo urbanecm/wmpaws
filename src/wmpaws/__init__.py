@@ -37,9 +37,17 @@ def connect(dbname: str, cluster: str = 'analytics') -> pymysql.connections.Conn
         charset='utf8'
     )
 
+def _get_connection_string(dbname: str) -> str:
+    if dbname.endswith('_p'):
+        dbname = dbname[:-2]
+    return 'mysql+pymysql://{dbname}.analytics.db.svc.wikimedia.cloud/{dbname}_p?read_default_file={config}&charset=utf8'.format(
+        dbname=dbname,
+        config=os.path.expanduser("~/.my.cnf")
+    )
+
 def run_sql(query: str, connection_or_dbname):
     if isinstance(connection_or_dbname, str):
-        connection = connect(connection_or_dbname)
+        connection = _get_connection_string(connection_or_dbname)
     else:
         connection = connection_or_dbname
     df = pd.read_sql_query(query, connection)
