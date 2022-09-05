@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='wmpaws',
-    version='1.1',
+    version='1.2',
     license='GNU',
     author='Martin Urbanec',
     author_email='martin@urbanec.cz',
@@ -29,7 +29,8 @@ setup(
         'requests_oauthlib',
         'pymysql',
         'pandas',
-        'ipython'
+        'ipython',
+        'sqlalchemy'
     ],
     classifiers=[
         'Intended Audience :: Developers',

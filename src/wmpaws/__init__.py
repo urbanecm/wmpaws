@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import pymysql
+from sqlalchemy import create_engine
 import pandas as pd
 import requests
 from requests_oauthlib import OAuth1
@@ -46,13 +47,18 @@ def _get_connection_string(dbname: str) -> str:
     )
 
 def run_sql(query: str, connection_or_dbname):
+    drop_engine = False
     if isinstance(connection_or_dbname, str):
-        connection = _get_connection_string(connection_or_dbname)
+        connection = create_engine(_get_connection_string(connection_or_dbname))
+        drop_engine = True
     else:
         connection = connection_or_dbname
     df = pd.read_sql_query(query, connection)
     for x in df:
         df[x] = df[x].apply(lambda y: y.decode('utf-8') if isinstance(y, bytes) else y)
+
+    if drop_engine:
+        connection.dispose()
     return df
 
 def get_dblist(dblist):
