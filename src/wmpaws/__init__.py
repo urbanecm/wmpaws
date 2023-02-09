@@ -19,7 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
 import pymysql
-from sqlalchemy import create_engine
+import sqlalchemy
 import pandas as pd
 import requests
 from requests_oauthlib import OAuth1
@@ -46,20 +46,23 @@ def _get_connection_string(dbname: str) -> str:
         config=os.path.expanduser("~/.my.cnf")
     )
 
-def run_sql(query: str, connection_or_dbname):
-    drop_engine = False
-    if isinstance(connection_or_dbname, str):
-        connection = create_engine(_get_connection_string(connection_or_dbname))
-        drop_engine = True
-    else:
-        connection = connection_or_dbname
-    df = pd.read_sql_query(query, connection)
+def _run_sql(query: str, connection):
+    df = pd.read_sql_query(sqlalchemy.sql.text(query), connection)
     for x in df:
         df[x] = df[x].apply(lambda y: y.decode('utf-8') if isinstance(y, bytes) else y)
-
-    if drop_engine:
-        connection.dispose()
     return df
+
+def run_sql(query: str, connection_or_dbname) -> pd.DataFrame:
+    if isinstance(connection_or_dbname, str):
+        engine = sqlalchemy.create_engine(_get_connection_string(connection_or_dbname))
+
+        with engine.connect() as connection:
+            df = _run_sql(query, connection)
+
+        engine.dispose()
+        return df
+    else:
+        return _run_sql(query, connection_or_dbname)
 
 def get_dblist(dblist):
     r = requests.get('https://noc.wikimedia.org/conf/dblists/{dblist}.dblist'.format(dblist=dblist))
